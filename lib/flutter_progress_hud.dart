@@ -14,31 +14,32 @@ class ProgressHUD extends StatefulWidget {
   final Color barrierColor;
   final TextStyle textStyle;
   final EdgeInsetsGeometry padding;
+  final bool dismissible;
 
-  ProgressHUD(
-      {@required this.child,
-      this.indicatorColor = Colors.white,
-      this.indicatorWidget,
-      this.backgroundColor = Colors.black54,
-      this.backgroundRadius = const Radius.circular(8.0),
-      this.borderColor = Colors.white,
-      this.borderWidth = 0.0,
-      this.barrierEnabled = true,
-      this.barrierColor = Colors.black12,
-      this.textStyle = const TextStyle(color: Colors.white, fontSize: 14.0),
-      this.padding = const EdgeInsets.all(16.0)})
+  ProgressHUD({@required this.child,
+    this.indicatorColor = Colors.white,
+    this.indicatorWidget,
+    this.backgroundColor = Colors.black54,
+    this.backgroundRadius = const Radius.circular(8.0),
+    this.borderColor = Colors.white,
+    this.borderWidth = 0.0,
+    this.dismissible = false,
+    this.barrierEnabled = true,
+    this.barrierColor = Colors.black12,
+    this.textStyle = const TextStyle(color: Colors.white, fontSize: 14.0),
+    this.padding = const EdgeInsets.all(16.0)})
       : assert(child != null);
 
   static _ProgressHUDState of(BuildContext context) {
     final progressHudState =
-        context.ancestorStateOfType(const TypeMatcher<_ProgressHUDState>());
+    context.ancestorStateOfType(const TypeMatcher<_ProgressHUDState>());
 
     assert(() {
       if (progressHudState == null) {
         throw FlutterError(
             'ProgressHUD operation requested with a context that does not include a ProgressHUD.\n'
-            'The context used to show ProgressHUD must be that of a widget '
-            'that is a descendant of a ProgressHUD widget.');
+                'The context used to show ProgressHUD must be that of a widget '
+                'that is a descendant of a ProgressHUD widget.');
       }
       return true;
     }());
@@ -106,6 +107,7 @@ class _ProgressHUDState extends State<ProgressHUD>
         Visibility(
           visible: _barrierVisible,
           child: ModalBarrier(
+            dismissible: widget.dismissible,
             color: widget.barrierColor,
           ),
         ),
